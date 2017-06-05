@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TMDb | Thai Movie Database</string>
+    <color name="nBlack">#3A3A3A</color>
+    <color name="colorBt">#47525e</color>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+
+
+</resources>

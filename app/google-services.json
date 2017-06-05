@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "637547092344",
+    "firebase_url": "https://thaimdb-de610.firebaseio.com",
+    "project_id": "thaimdb-de610",
+    "storage_bucket": "thaimdb-de610.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637547092344:android:e60aeff65cae8072",
+        "android_client_info": {
+          "package_name": "com.sourcey.materiallogindemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637547092344-vrkmjq4b5rbgdmd69rss92ujb7p89e6r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sourcey.materiallogindemo",
+            "certificate_hash": "ed4e1746553cfd668cd26c8986aad2914835597d"
+          }
+        },
+        {
+          "client_id": "637547092344-nvuj4f6uq7a0r7otbaq0o260o31jh7k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBs-h2n9iCTqHFYz-luzI5wR--3LaYS8tk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637547092344-nvuj4f6uq7a0r7otbaq0o260o31jh7k2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
