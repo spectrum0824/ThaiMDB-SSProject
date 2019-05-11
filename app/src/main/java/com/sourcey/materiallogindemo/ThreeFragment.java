@@ -3,9 +3,12 @@ package com.sourcey.materiallogindemo;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -24,16 +27,22 @@ public class ThreeFragment extends Fragment {
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mReviewsRef = mRootRef.child("reviews");
     long score = 5;
-
+    int posterIndex = 0;
     Button createBt;
     SeekBar scoreBar;
-    EditText _title;
-    EditText _url;
+    AutoCompleteTextView _title;
     EditText _des;
     TextView _score;
+    String[] movies;
+    String[] images;
 
 
+    public void refresh(){
 
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(ThreeFragment.this).attach(ThreeFragment.this).commit();
+
+    }
     public ThreeFragment() {
         // Required empty public constructor
     }
@@ -43,6 +52,7 @@ public class ThreeFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,12 +68,13 @@ public class ThreeFragment extends Fragment {
                 create();
             }
         });
-
-        _title = (EditText) view.findViewById(R.id.input_title);
-        _url = (EditText) view.findViewById(R.id.input_url);
+        movies = getResources().getStringArray(R.array.movies_array);
+        images = getResources().getStringArray(R.array.poster_array);
+        _title = (AutoCompleteTextView) view.findViewById(R.id.input_title);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, movies);
+        _title.setAdapter(adapter);//setting the adapter data into the AutoCompleteTextView
         _des = (EditText) view.findViewById(R.id.input_des);
         _score = (TextView) view.findViewById(R.id.score_tv);
-
         scoreBar = (SeekBar) view.findViewById(R.id.scoreBar);
         scoreBar.setProgress(5);
         getActivity().runOnUiThread(new Runnable() {
@@ -138,7 +149,12 @@ public class ThreeFragment extends Fragment {
                     progressDialog.show();
 
                     String title = _title.getText().toString();
-                    String url = _url.getText().toString();
+                    for (int i = 0; i < movies.length; i++) {
+                        if (title.equals(movies[i])){
+                            posterIndex = i;
+                        }
+                    }
+                    String url = images[posterIndex];
                     String des = _des.getText().toString();
                     String id = MainActivity.id;
                     String name = MainActivity.name;
@@ -180,13 +196,13 @@ public class ThreeFragment extends Fragment {
     public void onSuccessCreate(){
         createBt.setEnabled(true);
         Toast.makeText(getActivity().getBaseContext(), "You created the review", Toast.LENGTH_LONG).show();
+        refresh();
     }
 
     public boolean validate() {
         boolean valid = true;
 
         String title = _title.getText().toString();
-        String url = _url.getText().toString();
         String des = _des.getText().toString();
 
         if (title.isEmpty() || title.length() < 3) {
@@ -196,12 +212,6 @@ public class ThreeFragment extends Fragment {
             _title.setError(null);
         }
 
-        if(url.isEmpty() || url.length() < 4) {
-            _url.setError("at least 4 characters");
-            valid = false;
-        }else {
-            _url.setError(null);
-        }
 
 
         if (des.isEmpty() || des.length() < 4) {

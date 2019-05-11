@@ -130,7 +130,7 @@ public class SignupActivity extends AppCompatActivity {
                             String reEnterPassword = _reEnterPasswordText.getText().toString();
 
 
-                            mUsersRef.child(id).setValue(new User(id, name, password, 50));
+                            mUsersRef.child(id).setValue(new User(id, name, password, 0));
 
                             new android.os.Handler().postDelayed(
                                     new Runnable() {

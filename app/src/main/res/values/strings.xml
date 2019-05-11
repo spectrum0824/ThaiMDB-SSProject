@@ -5,7 +5,46 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string-array name="movies_array">
+        <item>9 Satra: The Legend of Muay Thai</item>
+        <item>Bangkok Nites</item>
+        <item>Bangkok Dark Tales</item>
+        <item>Boxing Songkran</item>
+        <item>Curses</item>
+        <item>Friend Zone</item>
+        <item>Inhuman Kiss</item>
+        <item>London Sweeties</item>
+        <item>Molum Mania</item>
+        <item>Nakorn-Sawan</item>
+        <item>On Zon De</item>
+        <item>Pee Nak</item>
+        <item>Ramavatar: Murals Brought to Life</item>
+        <item>SisterS</item>
+        <item>Top Secret</item>
+        <item>The Only Mom</item>
+        <item>Toilet</item>
+        <item>The Real Ghosts</item>
+    </string-array>
+    <string-array name="poster_array">
+        <item>https://i.pinimg.com/736x/c8/71/46/c871465af27f8e0eb2ee7a5b172a3478.jpg</item>
+        <item>https://konmongnangetc.files.wordpress.com/2018/01/e0b881e0b8a5e0b8b2e0b887e0b884e0b8b7e0b899e0b897e0b8b5e0b988e0b89ae0b8b2e0b887e0b881e0b8ade0b881-1.jpg?w=1086</item>
+        <item>https://movie.thaiware.com/upload_misc/movie/2019_04/original/1904120700080I8.jpg</item>
+        <item>https://cdn.majorcineplex.com/uploads/movie/2638/thumb_2638.jpg</item>
+        <item>https://cdn.majorcineplex.com/uploads/movie/2524/thumb_2524.jpg</item>
+        <item>https://cdn.majorcineplex.com/uploads/movie/2628/thumb_2628.jpg</item>
+        <item>http://img.over-blog-kiwi.com/3/31/32/03/20190411/ob_47d295_mv5bn2njywu4ztqtyjgyyi00zweyltk4mtmtnj.jpg</item>
+        <item>http://www.cinema.com.my/images/movies/2019/7londonsweeties00_450.jpg</item>
+        <item>http://img.over-blog-kiwi.com/3/21/64/15/20190415/ob_292744_molum-mania.jpg</item>
+        <item>https://i.ytimg.com/vi/C1KSzRLql24/maxresdefault.jpg</item>
+        <item>https://movie.thaiware.com/upload_misc/movie/2019_04/original/190426070010s06.jpg</item>
+        <item>https://cdn.majorcineplex.com/uploads/movie/2589/thumb_2589.jpg</item>
+        <item>https://pbs.twimg.com/media/D1_sWf_U4AENnsJ.jpg</item>
+        <item>https://cdn-images-1.medium.com/max/1200/1*zmsyhTCog-XlPgR2KDFLfQ.jpeg</item>
+        <item>https://upload.wikimedia.org/wikipedia/th/thumb/d/d4/Poster-top-green-.jpg/220px-Poster-top-green-.jpg</item>
+        <item>https://www.naewna.com/uploads/news/source/404420.jpg</item>
+        <item>https://movie.thaiware.com/upload_misc/movie/2019_04/original/1904130700093eP.jpg</item>
+        <item>https://movie.thaiware.com/upload_misc/movie/2019_02/original/1902080700104o2.jpg</item>
 
-
+    </string-array>
 
 </resources>

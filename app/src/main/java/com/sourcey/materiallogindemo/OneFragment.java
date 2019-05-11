@@ -2,11 +2,11 @@ package com.sourcey.materiallogindemo;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +22,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,14 +45,18 @@ public class OneFragment extends Fragment  {
     LinearLayout btLayout;
     String nameGlobal;
     DataSnapshot nowSnap;
-    String nowKey;
     String idNow;
+    String nowKey;
+    ArrayList<DataSnapshot> allSnap = new ArrayList<DataSnapshot>();
+    ArrayList<String> allKeys = new ArrayList<String>();
     Button reBt;
-
+    long nowRelia;
     public void refresh(){
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.detach(OneFragment.this).attach(OneFragment.this).commit();
+        allSnap.clear();
+        allKeys.clear();
 
     }
 
@@ -92,19 +98,22 @@ public class OneFragment extends Fragment  {
         mReviewsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+            int viewCounter = 0;
 
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     String titleStr = postSnapshot.child("title").getValue().toString();
                     String nameStr = postSnapshot.child("name").getValue().toString();
                     String desStr = postSnapshot.child("des").getValue().toString();
                     String scoreInt = postSnapshot.child("score").getValue().toString();
+                    long reviewScore = (long) postSnapshot.child("relia").getValue();
                     nameGlobal = nameStr;
                     nowSnap = postSnapshot;
                     nowKey = postSnapshot.getKey();
+                    allSnap.add(postSnapshot);
+                    allKeys.add(postSnapshot.getKey());
 
 
-                    long relia = (long) postSnapshot.child("relia").getValue();
+                    long relia = nowRelia;
                     String urlStr = postSnapshot.child("url").getValue().toString();
 
                     // Initialize a new CardView
@@ -164,51 +173,63 @@ public class OneFragment extends Fragment  {
 
                     // Initialize a new TextView to put in CardView
                     TextView title = new TextView(mContext);
-                    String scoreStr = "Score : ";
+                    String scoreStr = "Score: ";
 
-                    title.setText(titleStr + " ----------> " + scoreStr + scoreInt);
+                    title.setText(titleStr + "\t|\t" + scoreStr + scoreInt + "/10");
                     title.setLayoutParams(params2);
-                    title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+                    title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                     title.setTextColor(Color.parseColor("#FFFFFF"));
+                    TextView like = new TextView(mContext);
+                    like.setText("This review got " + reviewScore + " Likes");
+                    like.setLayoutParams(params2);
+                    like.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+                    like.setTextColor(Color.parseColor("#CCCCCC"));
+
 
                     TextView name = new TextView(mContext);
-                    String reliaStr = "Reliability : ";
-                    name.setText(nameStr + " ----------> " + reliaStr + relia + "⋆");
+                    name.setText("Reviewer: " + nameStr);
                     name.setLayoutParams(params2);
-                    name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+                    name.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
                     name.setTextColor(Color.parseColor("#CCCCCC"));
+                    name.setTypeface(null, Typeface.ITALIC);
 
                     ImageView img = new ImageView(mContext);
                     img.setLayoutParams(params);
                     Picasso.with(mContext).load(urlStr).into(img);
+                    TextView headDes = new TextView(mContext);
+                    headDes.setText("Review");
+                    headDes.setLayoutParams(params2);
+                    headDes.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+                    headDes.setTextColor(Color.parseColor("#CCCCCC"));
+                    headDes.setTypeface(null, Typeface.ITALIC);
 
                     TextView des = new TextView(mContext);
                     des.setText(desStr);
                     des.setLayoutParams(params2);
-                    des.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 10);
+                    des.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                     des.setTextColor(Color.parseColor("#FFFFFF"));
 
                     Button agButton = new Button(mContext);
-                    agButton.setText("Agree");
+                    agButton.setId(viewCounter);
+                    agButton.setText("Like");
                     agButton.setLayoutParams(params3);
-
                     agButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
-                            long relia = (long) nowSnap.child("relia").getValue() + 10;
-                            mReviewsRef.child(nowKey).child("relia").setValue(relia);
+                            long relia = (long) allSnap.get(v.getId()).child("relia").getValue() + 1;
+                            mReviewsRef.child(allKeys.get(v.getId())).child("relia").setValue(relia);
                             refresh();
 
                         }
                     });
 
-                    Button dgButton = new Button(mContext);
-                    dgButton.setText("Disagree");
+                    final Button dgButton = new Button(mContext);
+                    dgButton.setText("Dislike");
+                    dgButton.setId(viewCounter);
                     dgButton.setLayoutParams(params3);
-
                     dgButton.setOnClickListener(new View.OnClickListener() {
                         public void onClick(View v) {
-                            long relia = (long) nowSnap.child("relia").getValue() - 10;
-                            mReviewsRef.child(nowKey).child("relia").setValue(relia);
+                            long relia = (long) allSnap.get(v.getId()).child("relia").getValue() - 1;
+                            mReviewsRef.child(allKeys.get(v.getId())).child("relia").setValue(relia);
                             refresh();
 
                         }
@@ -217,15 +238,17 @@ public class OneFragment extends Fragment  {
 
                     // Put the TextView in CardView
                     innerLayout.addView(title);
+                    innerLayout.addView(like);
                     innerLayout.addView(name);
                     innerLayout.addView(img);
+                    innerLayout.addView(headDes);
                     innerLayout.addView(des);
                     innerLayout.addView(agButton);
                     innerLayout.addView(dgButton);
                     card.addView(innerLayout);
                     mLinearLayout.addView(card);
 
-
+                    viewCounter++;
                 }
             }
 
